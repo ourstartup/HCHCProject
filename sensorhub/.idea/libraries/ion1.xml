@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ion1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../ion-master/ion/bin/ion.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
