@@ -1,5 +1,8 @@
 package com.casic.sensorhub.bean;
 
+import android.util.Log;
+import com.google.gson.Gson;
+
 /**
  * Created by admin on 2015/5/3.
  */
@@ -59,5 +62,12 @@ public class UserInfo
     public void setCredits(int credits)
     {
         this.credits = credits;
+    }
+
+    public static UserInfo parseJson(String json)
+    {
+        Gson gson = new Gson();
+        UserInfo userInfo = gson.fromJson(json, UserInfo.class);
+        return userInfo;
     }
 }

@@ -101,32 +101,18 @@ public class MainActivity extends Activity {
         public void onSuccess(Object data)
         {
             Log.d("MainActivity:","成功返回");
-            Gson gson = new Gson();
             String sData = data.toString();
-            try
+            RestResponse resp = RestResponse.parseJson(sData);
+            if (resp.isSuccess())
             {
-                JSONObject jsonObject = new JSONObject(sData);
-                RestResponse resp = new RestResponse();
-                resp.setMessage(jsonObject.getString("message"));
-                resp.setSuccess(jsonObject.getBoolean("success"));
-                if (resp.isSuccess())
-                {
-                    Log.d("MainActivity", "登录成功");
-                    UserInfo userInfo = gson.fromJson(resp.getMessage(), UserInfo.class);
-                    Log.d("登录用户名称", userInfo.getUsername());
-                    Log.d("登录密码", userInfo.getPassword());
-                    Log.d("nickname", userInfo.getNickName());
-                    Log.d("ID", "" + userInfo.getId());
-                    Log.d("得分", "" + userInfo.getCredits());
-                } else
-                {
-                    Log.d("MainActivity", resp.getMessage());
-                }
+                Log.d("MainActivity", "登录成功");
+                UserInfo userInfo = UserInfo.parseJson(resp.getMessage());
             }
-            catch (JSONException e)
+            else
             {
-                e.printStackTrace();
+                Log.d("MainActivity", resp.getMessage());
             }
+
         }
 
         @Override
@@ -144,7 +130,7 @@ public class MainActivity extends Activity {
 
     private void testLogin()
     {
-        ApiClent.login((SensorHubApplication)getApplication(),"zhangfan","123456",callback);
+        ApiClent.login(getApplicationContext(),"zhangfan","123456",callback);
     }
 
 }

@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
 
-        <instrumentation android:name="android.test.InstrumentationTestRunner"
-                         android:targetPackage="com.casic.sensorhub" android:label="Tests for My App" />
     </application>
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+                     android:targetPackage="com.casic.sensorhub" android:label="Tests for My App" />
 </manifest>

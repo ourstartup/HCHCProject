@@ -1,6 +1,7 @@
 package com.casic.sensorhub.http;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import com.casic.sensorhub.bean.RestResponse;
 import com.casic.sensorhub.bean.UserInfo;
@@ -25,7 +26,7 @@ public class ApiClent
         abstract void onError(Exception e);
     }
 
-	public static void login(Application appContext, String userName, String password, final ClientCallback callback)
+	public static void login(Context appContext, String userName, String password, final ClientCallback callback)
     {
 
         Ion.with(appContext)
