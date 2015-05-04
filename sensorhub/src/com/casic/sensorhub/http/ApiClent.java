@@ -50,21 +50,19 @@ public class ApiClent
                 });
     }
 
-    public static void register(Application appContext, String userName, String password, String nickName, final ClientCallback callback)
+    public static void register(Context appContext, String userName, String password, String nickName, final ClientCallback callback)
     {
-        JsonObject json = new JsonObject();
-        json.addProperty("userName", userName);
-        json.addProperty("password", password);
-        json.addProperty("nickName", nickName);
 
         Ion.with(appContext)
                 .load(NetUrl.URL_REGISTER)
-                .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
+                .setBodyParameter("userName", userName)
+                .setBodyParameter("password", password)
+                .setBodyParameter("nickName", nickName)
+                .asString()
+                .setCallback(new FutureCallback<String>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(Exception e, String result)
                     {
                         if (e != null)
                         {
@@ -78,23 +76,27 @@ public class ApiClent
 
     }
 
-    public static void postArticle(Application appContext,String title, String body, String userId, File file, final ClientCallback callback)
+    public static void postArticle(Context appContext,String title, String body, String userId, File file, final ClientCallback callback)
     {
 
+        /*
         Map map = new HashMap<String, List<String>>();
         map.put("title", title);
         map.put("body", body);
         map.put("userId", userId);
+        */
 
         Ion.with(appContext)
-                .load(NetUrl.URL_REGISTER)
-                .setMultipartParameters(map)
+                .load(NetUrl.URL_POSTARTICLE)
+                .setMultipartParameter("title", title)
+                .setMultipartParameter("body", body)
+                .setMultipartParameter("userId", userId)
                 .setMultipartFile("file", file)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
+                .asString()
+                .setCallback(new FutureCallback<String>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(Exception e, String result)
                     {
                         if (e != null)
                         {

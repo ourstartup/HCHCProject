@@ -14,10 +14,10 @@ public class NetUrl
 
     static {
         NetUrl.URL_LOGIN = "http://192.168.1.104:9080/iot/rs/user/login";
-        NetUrl.URL_REGISTER = "http://serverIP:port/iot/user/register";
-        NetUrl.URL_POSTARTICLE = "http://serverIP:port/iot/article/upload";
-        NetUrl.URL_POSTCOMMETN = "http://serverIP:PORT/iot/article/postComment";
-        NetUrl.URL_GETCOMMENTS = "http://serverIp:port/iot/article/list";
+        NetUrl.URL_REGISTER = "http://192.168.1.104:9080/iot/rs/user/register";
+        NetUrl.URL_POSTARTICLE = "http://192.168.1.104:9080/iot/rs/article/upload";
+        NetUrl.URL_POSTCOMMETN = "http://192.168.1.104:9080/iot/rs/article/postComment";
+        NetUrl.URL_GETCOMMENTS = "http://192.168.1.104:9080/iot/rs/article/list";
 
 
     }
