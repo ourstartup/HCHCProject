@@ -8,6 +8,7 @@ import com.koushikdutta.async.util.StreamUtility;
 
 import java.io.File;
 import java.security.spec.ECField;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ApiClentTest extends AndroidTestCase
@@ -85,7 +86,9 @@ public class ApiClentTest extends AndroidTestCase
 
     public void testRegisterSuccess() throws Exception
     {
-        ApiClent.register(getContext(), "predator120", "123456", "tobias", registerSuccessCalllback);
+        Random random1 = new Random(100);
+        String userName = "zhangfan" + random1.nextInt();
+        ApiClent.register(getContext(), userName, "123456", "tobias", registerSuccessCalllback);
         sRegisterSucess.acquire();
     }
 
@@ -128,6 +131,11 @@ public class ApiClentTest extends AndroidTestCase
         @Override
         public void onSuccess(Object data)
         {
+
+            String sData = data.toString();
+            RestResponse resp = RestResponse.parseJson(sData);
+            assertEquals(resp.getMessage(),"发帖成功");
+            assertEquals(resp.isSuccess(),true);
             sPostArticleSuccess.release();
         }
 
@@ -148,7 +156,6 @@ public class ApiClentTest extends AndroidTestCase
 
         File f = getContext().getFileStreamPath("test.txt");
         StreamUtility.writeFile(f, "hello world");
-
         ApiClent.postArticle(getContext(), "我的照片", "批示", "1", f,postArticleSuccess);
         sPostArticleSuccess.acquire();
 
