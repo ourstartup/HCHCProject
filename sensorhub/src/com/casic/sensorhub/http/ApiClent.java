@@ -79,13 +79,6 @@ public class ApiClent
     public static void postArticle(Context appContext,String title, String body, String userId, File file, final ClientCallback callback)
     {
 
-        /*
-        Map map = new HashMap<String, List<String>>();
-        map.put("title", title);
-        map.put("body", body);
-        map.put("userId", userId);
-        */
-
         Ion.with(appContext)
                 .load(NetUrl.URL_POSTARTICLE)
                 .setMultipartParameter("title", title)
@@ -110,24 +103,23 @@ public class ApiClent
 
     }
 
-    public static void postComment(Application appContext, String articleId, String message,
+    public static void postComment(Context appContext, String articleId, String message,
                                    String userId, File file, String cid, final ClientCallback callback)
     {
-        Map map = new HashMap<String, List<String>>();
-        map.put("articleId", articleId);
-        map.put("message", message);
-        map.put("userId", userId);
-        map.put("cid", cid);
+
 
         Ion.with(appContext)
                 .load(NetUrl.URL_POSTCOMMETN)
-                .setMultipartParameters(map)
+                .setMultipartParameter("articleId", articleId)
+                .setMultipartParameter("message", message)
+                .setMultipartParameter("userId", userId)
+                .setMultipartParameter("cid", cid)
                 .setMultipartFile("file", file)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
+                .asString()
+                .setCallback(new FutureCallback<String>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(Exception e, String result)
                     {
                         if (e != null)
                         {
@@ -140,22 +132,20 @@ public class ApiClent
                 });
     }
 
-    public static void getCommetns(Application appContext, String articleId, String userId, String page, String rows, final ClientCallback callback)
+    public static void getComments(Context appContext, String articleId, String userId, String page, String rows, final ClientCallback callback)
     {
-        JsonObject json = new JsonObject();
-        json.addProperty("articleId", articleId);
-        json.addProperty("userId", userId);
-        json.addProperty("page", page);
-        json.addProperty("rows", rows);
 
         Ion.with(appContext)
                 .load(NetUrl.URL_GETCOMMENTS)
-                .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
+                .setBodyParameter("articleId", articleId)
+                .setBodyParameter("userId", userId)
+                .setBodyParameter("page", page)
+                .setBodyParameter("rows", rows)
+                .asString()
+                .setCallback(new FutureCallback<String>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(Exception e, String result)
                     {
                         if (e != null)
                         {

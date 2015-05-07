@@ -161,13 +161,67 @@ public class ApiClentTest extends AndroidTestCase
 
     }
 
+    final Semaphore sPostCommentSuccess = new Semaphore(0);
+    private ApiClent.ClientCallback postCommentSuccess = new ApiClent.ClientCallback()
+    {
+        @Override
+        public void onSuccess(Object data)
+        {
+            String sData = data.toString();
+            RestResponse resp = RestResponse.parseJson(sData);
+            assertEquals(resp.getMessage(),"评论成功");
+            assertEquals(resp.isSuccess(),true);
+            sPostCommentSuccess.release();
+        }
+
+        @Override
+        public void onFailure(String message)
+        {
+
+        }
+
+        @Override
+        public void onError(Exception e)
+        {
+
+        }
+    };
     public void testPostComment() throws Exception
     {
+        File f = getContext().getFileStreamPath("test.txt");
+        StreamUtility.writeFile(f, "hello world");
+        ApiClent.postComment(getContext(), "21", "这是一个测试评论", "1", f, "1", postCommentSuccess);
+        sPostCommentSuccess.acquire();
 
     }
 
-    public void testGetCommetns() throws Exception
+
+    private Semaphore sGetCommentsSuccess = new Semaphore(0);
+    private ApiClent.ClientCallback getCommentsCallback = new ApiClent.ClientCallback()
     {
+        @Override
+        public void onSuccess(Object data)
+        {
+            sGetCommentsSuccess.release();
+
+        }
+
+        @Override
+        public void onFailure(String message)
+        {
+
+        }
+
+        @Override
+        public void onError(Exception e)
+        {
+
+        }
+    };
+    public void testGetComments() throws Exception
+    {
+        ApiClent.getComments(getContext(), "1", "1", "1", "10",getCommentsCallback);
+        sGetCommentsSuccess.acquire();
 
     }
 }
